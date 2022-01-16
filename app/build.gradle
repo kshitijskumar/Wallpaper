@@ -17,6 +17,8 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        buildConfigField "String", "PEXEL_BASE_URL", "\"https://api.pexels.com/\""
     }
 
     buildTypes {
