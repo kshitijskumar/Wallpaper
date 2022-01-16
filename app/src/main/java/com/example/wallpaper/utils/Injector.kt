@@ -3,6 +3,8 @@ package com.example.wallpaper.utils
 import com.example.wallpaper.BuildConfig
 import com.example.wallpaper.domain.network.AuthInterceptor
 import com.example.wallpaper.domain.network.PexelsApiService
+import com.example.wallpaper.domain.repositories.home.HomeRepository
+import com.example.wallpaper.domain.repositories.home.HomeRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -40,6 +42,9 @@ object Injector {
 
     val pexelApiService: PexelsApiService
         get() = retrofit.create(PexelsApiService::class.java)
+
+    val homeRepository: HomeRepository
+        get() = HomeRepositoryImpl()
 
 
 }
