@@ -28,5 +28,5 @@ data class PhotoSourceModel(
     val large: String = "",
     val medium: String = "",
     val small: String = "",
-    val portrait: String = ""
+    val portrait: String = "https://images.pexels.com/photos/7051053/pexels-photo-7051053.png?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800"
 )

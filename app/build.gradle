@@ -19,6 +19,7 @@ android {
         }
 
         buildConfigField "String", "PEXEL_BASE_URL", "\"https://api.pexels.com/\""
+        buildConfigField "String", "PEXEL_AUTH_KEY", "\"563492ad6f917000010000011b875f8e55494287ba839f51ab6d2e50\""
     }
 
     buildTypes {
@@ -83,4 +84,11 @@ dependencies {
     // Lifecycles only (without ViewModel or LiveData)
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+    implementation 'androidx.compose.runtime:runtime-livedata:1.2.0-alpha01'
+
+    // coil
+    implementation "io.coil-kt:coil-compose:1.4.0"
+
+    // compose constraint layout
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0-rc02"
 }
