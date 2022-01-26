@@ -14,3 +14,7 @@ inline fun <reified T>String.fromJsonToObject(): T? {
         null
     }
 }
+
+fun String.fromPathWithBracesToPathWithoutBraces(): String {
+    return this.replace("{", "").replace("}", "")
+}
