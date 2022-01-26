@@ -12,6 +12,8 @@ import android.util.Log
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class WallpaperSetter(private val context: Context) {
 
@@ -38,27 +40,30 @@ class WallpaperSetter(private val context: Context) {
 
     private suspend fun cropAndSetWallpaper(bitmap: Bitmap): Result<Unit> {
         return kotlin.runCatching {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                val wallpaperHeight = Resources.getSystem().displayMetrics.heightPixels
-                val wallpaperWidth = Resources.getSystem().displayMetrics.widthPixels
+            withContext(Dispatchers.Default) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    val wallpaperHeight = Resources.getSystem().displayMetrics.heightPixels
+                    val wallpaperWidth = Resources.getSystem().displayMetrics.widthPixels
 
-                val startPoint = Point(0, 0)
-                val endPoint = Point(bitmap.width, bitmap.height)
+                    val startPoint = Point(0, 0)
+                    val endPoint = Point(bitmap.width, bitmap.height)
 
-                if (bitmap.width > wallpaperWidth) {
-                    startPoint.x = (bitmap.width - wallpaperWidth)/2
-                    endPoint.x = startPoint.x + wallpaperWidth
+                    if (bitmap.width > wallpaperWidth) {
+                        startPoint.x = (bitmap.width - wallpaperWidth)/2
+                        endPoint.x = startPoint.x + wallpaperWidth
+                    }
+
+                    if (bitmap.height > wallpaperHeight) {
+                        startPoint.y = (bitmap.height - wallpaperHeight) / 2
+                        endPoint.y = startPoint.y + wallpaperHeight
+                    }
+
+                    wallpaperManager.setBitmap(bitmap, Rect(startPoint.x, startPoint.y, endPoint.x, endPoint.y), false)
+                } else {
+                    wallpaperManager.setBitmap(bitmap)
                 }
-
-                if (bitmap.height > wallpaperHeight) {
-                    startPoint.y = (bitmap.height - wallpaperHeight) / 2
-                    endPoint.y = startPoint.y + wallpaperHeight
-                }
-
-                wallpaperManager.setBitmap(bitmap, Rect(startPoint.x, startPoint.y, endPoint.x, endPoint.y), false)
-            } else {
-                wallpaperManager.setBitmap(bitmap)
             }
+
         }
     }
 }
