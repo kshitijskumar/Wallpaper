@@ -48,8 +48,8 @@ class MainActivity : ComponentActivity() {
                             arguments = NavigationDestinations.Details.arguments
                         ) {
                             val outputString = Uri.decode(it.arguments?.getString(WALLPAPER_IMAGE_PARAM))
-                            val obj = outputString?.fromJsonToObject<PhotoResponseModel>()
-                            DetailsScreen()
+                            val photoModel = outputString?.fromJsonToObject<PhotoResponseModel>() ?: return@composable
+                            DetailsScreen(photoModel)
                         }
 
                     }
