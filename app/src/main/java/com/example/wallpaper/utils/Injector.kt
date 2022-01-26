@@ -5,6 +5,8 @@ import com.example.wallpaper.domain.network.AuthInterceptor
 import com.example.wallpaper.domain.network.PexelsApiService
 import com.example.wallpaper.domain.repositories.home.HomeRepository
 import com.example.wallpaper.domain.repositories.home.HomeRepositoryImpl
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import kotlinx.coroutines.Dispatchers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -22,6 +24,9 @@ object Injector {
                 get() = Dispatchers.Main
         }
     }
+
+    val gson: Gson
+        get() = GsonBuilder().create()
 
     private val authInterceptor: Interceptor by lazy {
         AuthInterceptor()

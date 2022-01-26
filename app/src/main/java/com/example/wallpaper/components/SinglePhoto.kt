@@ -1,6 +1,7 @@
 package com.example.wallpaper.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +21,7 @@ import com.example.wallpaper.domain.models.PhotoResponseModel
 fun SinglePhoto(
     modifier: Modifier = Modifier,
     model: PhotoResponseModel = PhotoResponseModel(),
+    onImageClick: (PhotoResponseModel) -> Unit = {}
 ) {
 
     Box(
@@ -28,6 +30,7 @@ fun SinglePhoto(
             .aspectRatio(0.75f)
             .clip(RoundedCornerShape(8.dp))
             .shadow(0.dp)
+            .clickable (onClick = { onImageClick.invoke(model) })
     ) {
         Image(
             painter = rememberImagePainter(

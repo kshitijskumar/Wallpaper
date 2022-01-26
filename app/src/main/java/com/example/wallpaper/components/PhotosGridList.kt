@@ -18,6 +18,7 @@ fun PhotosGridList(
     modifier: Modifier = Modifier,
     photosList: List<PhotoResponseModel> = listOf(),
     fetchMore: (Int) -> Unit = {},
+    onImageClick: (PhotoResponseModel) -> Unit = {}
 ) {
     LazyVerticalGrid(
         modifier = modifier,
@@ -27,7 +28,8 @@ fun PhotosGridList(
         itemsIndexed(items = photosList) { index, photo ->
             SinglePhoto(
                 model = photo,
-                modifier = Modifier.padding(4.dp, 4.dp)
+                modifier = Modifier.padding(4.dp, 4.dp),
+                onImageClick = onImageClick
             )
             if (index == photosList.size - 1) {
                 fetchMore.invoke(index)

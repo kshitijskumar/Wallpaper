@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.wallpaper.components.PhotosGridList
+import com.example.wallpaper.domain.models.PhotoResponseModel
 import com.example.wallpaper.viewmodels.home.HomeUiState
 import com.example.wallpaper.viewmodels.home.HomeViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -24,6 +25,7 @@ import kotlinx.coroutines.CoroutineScope
 fun HomeScreen(
     scope: CoroutineScope = rememberCoroutineScope(),
     homeVM: HomeViewModel = viewModel(modelClass = HomeViewModel::class.java),
+    onImageClick: (PhotoResponseModel) -> Unit = {}
 ) {
     val context = LocalContext.current
 
@@ -55,10 +57,10 @@ fun HomeScreen(
             modifier = Modifier.constrainAs(imagesGridList) {
                 top.linkTo(parent.top)
             },
-            photosList = curatedImagesList.value
-        ) {
-            lastIndexUsedForPagination = it
-        }
+            photosList = curatedImagesList.value,
+            onImageClick = onImageClick,
+            fetchMore = { lastIndexUsedForPagination = it }
+        )
         if (uiState.value is HomeUiState.Loading) {
             CircularProgressIndicator(
                 modifier = Modifier.constrainAs(circularLoader) {

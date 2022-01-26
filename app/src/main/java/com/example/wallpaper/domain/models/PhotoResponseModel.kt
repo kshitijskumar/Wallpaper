@@ -1,6 +1,8 @@
 package com.example.wallpaper.domain.models
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class CuratedListResponseModel(
     val page: Int = 1,
@@ -10,7 +12,8 @@ data class CuratedListResponseModel(
     @SerializedName("next_page") val nextPage: String = ""
 )
 
-data class PhotoResponseModel(
+@Parcelize
+data class PhotoResponseModel (
     val id: Long? = null,
     val width: Long = 0L,
     val height: Long = 0L,
@@ -21,12 +24,13 @@ data class PhotoResponseModel(
     @SerializedName("avg_color") val avgColor: String = "#ffffff",
     @SerializedName("src") val photoSrc: PhotoSourceModel = PhotoSourceModel(),
     @SerializedName("alt") val description: String = ""
-)
+) : Parcelable
 
+@Parcelize
 data class PhotoSourceModel(
     val original: String = "",
     val large: String = "",
     val medium: String = "",
     val small: String = "",
     val portrait: String = "https://images.pexels.com/photos/7051053/pexels-photo-7051053.png?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800"
-)
+) : Parcelable

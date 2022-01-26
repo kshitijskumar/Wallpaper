@@ -1,5 +1,6 @@
 package com.example.wallpaper
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -9,15 +10,18 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.wallpaper.domain.models.PhotoResponseModel
+import com.example.wallpaper.features.details.DetailsScreen
 import com.example.wallpaper.features.home.HomeScreen
+import com.example.wallpaper.navigation.NavigationDestinations
+import com.example.wallpaper.navigation.NavigationDestinations.Details.WALLPAPER_IMAGE
+import com.example.wallpaper.navigation.NavigationDestinations.Details.WALLPAPER_IMAGE_PARAM
 import com.example.wallpaper.ui.theme.WallpaperTheme
-import com.example.wallpaper.utils.Injector
-import com.example.wallpaper.viewmodels.home.HomeViewModel
-import kotlinx.coroutines.launch
+import com.example.wallpaper.utils.fromJsonToObject
 
 @ExperimentalFoundationApi
 class MainActivity : ComponentActivity() {
@@ -27,7 +31,28 @@ class MainActivity : ComponentActivity() {
             WallpaperTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    HomeScreen()
+                    val navController = rememberNavController()
+                    NavHost(navController = navController, startDestination = NavigationDestinations.Home.route) {
+                        composable(
+                            route = NavigationDestinations.Home.route
+                        ) {
+                            HomeScreen(
+                                onImageClick = {
+                                    navController.navigate(NavigationDestinations.Home.returnImageClickRoute(it))
+                                }
+                            )
+                        }
+
+                        composable(
+                            route = NavigationDestinations.Details.route,
+                            arguments = NavigationDestinations.Details.arguments
+                        ) {
+                            val outputString = Uri.decode(it.arguments?.getString(WALLPAPER_IMAGE_PARAM))
+                            val obj = outputString?.fromJsonToObject<PhotoResponseModel>()
+                            DetailsScreen()
+                        }
+
+                    }
                 }
             }
         }
