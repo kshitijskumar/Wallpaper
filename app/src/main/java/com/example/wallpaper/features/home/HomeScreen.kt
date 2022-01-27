@@ -36,10 +36,6 @@ fun HomeScreen(
         mutableStateOf(1)
     }
 
-    // launched effects
-    LaunchedEffect(key1 = lastIndexUsedForPagination) {
-        homeVM.getInitialOrPaginatedCuratedPhotos()
-    }
     if (uiState.value is HomeUiState.Error) {
         LaunchedEffect(key1 = uiState.value) {
             Toast.makeText(context,
@@ -65,7 +61,12 @@ fun HomeScreen(
                 },
                 photosList = curatedImagesList.value,
                 onImageClick = navManager::navigateToDetailsScreen,
-                fetchMore = { lastIndexUsedForPagination = it }
+                fetchMore = {
+                    if (lastIndexUsedForPagination != it) {
+                        lastIndexUsedForPagination = it
+                        homeVM.getInitialOrPaginatedCuratedPhotos()
+                    }
+                }
             )
             if (uiState.value is HomeUiState.Loading) {
                 CircularProgressIndicator(

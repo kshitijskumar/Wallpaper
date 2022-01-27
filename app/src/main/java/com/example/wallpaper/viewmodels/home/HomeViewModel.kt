@@ -28,6 +28,10 @@ class HomeViewModel(
 
     private var currentPageNumberForCuratedPhotos: Int = 1
 
+    init {
+        getInitialOrPaginatedCuratedPhotos()
+    }
+
     fun getInitialOrPaginatedCuratedPhotos() = viewModelScope.launch {
         Log.d("HomeScreen", "vm for $currentPageNumberForCuratedPhotos")
         decideBetweenInitialLoadingAndPaginatedLoading()
