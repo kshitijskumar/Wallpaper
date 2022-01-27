@@ -15,7 +15,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.wallpaper.components.PhotosGridList
 import com.example.wallpaper.components.SearchBarDisplay
-import com.example.wallpaper.domain.models.PhotoResponseModel
+import com.example.wallpaper.navigation.NavigationManager
+import com.example.wallpaper.navigation.navigationManager
 import com.example.wallpaper.viewmodels.home.HomeUiState
 import com.example.wallpaper.viewmodels.home.HomeViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -25,8 +26,7 @@ import kotlinx.coroutines.CoroutineScope
 fun HomeScreen(
     scope: CoroutineScope = rememberCoroutineScope(),
     homeVM: HomeViewModel = viewModel(modelClass = HomeViewModel::class.java),
-    onImageClick: (PhotoResponseModel) -> Unit = {},
-    onSearchBarClick: () -> Unit = {}
+    navManager: NavigationManager,
 ) {
     val context = LocalContext.current
 
@@ -52,7 +52,7 @@ fun HomeScreen(
     Column {
 
         Spacer(modifier = Modifier.height(8.dp))
-        SearchBarDisplay()
+        SearchBarDisplay(onSearchClicked = navManager::navigateToSearchScreen)
         Spacer(modifier = Modifier.height(8.dp))
         ConstraintLayout(
             modifier = Modifier
@@ -64,7 +64,7 @@ fun HomeScreen(
                     top.linkTo(parent.top)
                 },
                 photosList = curatedImagesList.value,
-                onImageClick = onImageClick,
+                onImageClick = navManager::navigateToDetailsScreen,
                 fetchMore = { lastIndexUsedForPagination = it }
             )
             if (uiState.value is HomeUiState.Loading) {
@@ -93,5 +93,5 @@ fun HomeScreen(
 @Preview(showSystemUi = true)
 @Composable
 fun HomeScreenPrev() {
-    HomeScreen()
+    HomeScreen(navManager = navigationManager())
 }

@@ -10,7 +10,9 @@ data class CuratedListResponseModel(
     val photos: List<PhotoResponseModel> = listOf(),
     @SerializedName("total_results") val totalResults: Long = 0L,
     @SerializedName("next_page") val nextPage: String = ""
-)
+) {
+    var correspondingQueryForThisResult: String = ""
+}
 
 @Parcelize
 data class PhotoResponseModel (

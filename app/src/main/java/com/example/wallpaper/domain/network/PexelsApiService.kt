@@ -16,4 +16,10 @@ interface PexelsApiService {
         @Query("page") page: Int = 1
     ) : Response<CuratedListResponseModel>
 
+    @GET("${COMMON_PATH}search/?per_page=20")
+    suspend fun searchImageForQuery(
+        @Query("query") query: String,
+        @Query("page") page: Int
+    ) : Response<CuratedListResponseModel>
+
 }

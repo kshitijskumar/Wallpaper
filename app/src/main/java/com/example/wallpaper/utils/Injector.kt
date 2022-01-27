@@ -5,6 +5,8 @@ import com.example.wallpaper.domain.network.AuthInterceptor
 import com.example.wallpaper.domain.network.PexelsApiService
 import com.example.wallpaper.domain.repositories.home.HomeRepository
 import com.example.wallpaper.domain.repositories.home.HomeRepositoryImpl
+import com.example.wallpaper.domain.repositories.search.SearchRepository
+import com.example.wallpaper.domain.repositories.search.SearchRepositoryImpl
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.Dispatchers
@@ -51,7 +53,8 @@ object Injector {
     val homeRepository: HomeRepository
         get() = HomeRepositoryImpl()
 
-
+    val searchRepository: SearchRepository
+        get() = SearchRepositoryImpl()
 }
 
 interface DispatcherProvider {
