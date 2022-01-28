@@ -26,6 +26,7 @@ class SearchViewModel(
     val searchResults: LiveData<CuratedListResponseModel> get() = _searchResults
 
     val uiState = mutableStateOf<SearchUiState>(SearchUiState.Idle)
+    var shouldScrollToTop = mutableStateOf(true)
 
     private var currentSearchQuery: String = ""
     private var currentPageNumber: Int = 1
@@ -63,6 +64,7 @@ class SearchViewModel(
                     _searchResults.postValue(data)
                 }
                 uiState.value = SearchUiState.Success
+                shouldScrollToTop.value = data.correspondingQueryForThisResult != currentResultQuery
             }
             is DataResult.Error -> {
                 uiState.value = SearchUiState.Error(result.errorMsg)

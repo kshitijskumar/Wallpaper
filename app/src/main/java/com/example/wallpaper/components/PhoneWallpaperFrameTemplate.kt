@@ -40,7 +40,7 @@ fun PhoneWallpaperFrameTemplate(
                     width = Dimension.fillToConstraints
                     height = Dimension.fillToConstraints
                 }
-                .padding(start = 7.dp, top = 3.dp, end = 6.dp, bottom = 1.dp)
+                .padding(start = 7.dp, top = 4.dp, end = 6.dp, bottom = 1.dp)
                 .clip(RoundedCornerShape(20.dp)),
             painter = rememberImagePainter(data = photo.photoSrc.portrait),
             contentDescription = photo.description,

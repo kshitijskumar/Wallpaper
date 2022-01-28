@@ -40,6 +40,7 @@ fun SearchScreen(
     if (uiState.value is SearchUiState.Error) {
         context.shortToast((uiState.value as SearchUiState.Error).errorMsg)
     }
+    val shouldScrollToTop = searchVm.shouldScrollToTop
 
     Column {
         Spacer(modifier = Modifier.height(8.dp))
@@ -64,6 +65,7 @@ fun SearchScreen(
                         searchVm.updatePageNumber()
                     }
                 },
+                shouldScrollToTop = shouldScrollToTop.value,
                 onImageClick = navManager::navigateToDetailsScreen
             )
 
