@@ -1,8 +1,13 @@
 package com.example.wallpaper.utils
 
+import android.content.Context
 import com.example.wallpaper.BuildConfig
+import com.example.wallpaper.domain.local.wallpapers.WallpaperDao
+import com.example.wallpaper.domain.local.wallpapers.WallpaperDatabase
 import com.example.wallpaper.domain.network.AuthInterceptor
 import com.example.wallpaper.domain.network.PexelsApiService
+import com.example.wallpaper.domain.repositories.details.DetailsRepository
+import com.example.wallpaper.domain.repositories.details.DetailsRepositoryImpl
 import com.example.wallpaper.domain.repositories.home.HomeRepository
 import com.example.wallpaper.domain.repositories.home.HomeRepositoryImpl
 import com.example.wallpaper.domain.repositories.search.SearchRepository
@@ -17,6 +22,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.coroutines.CoroutineContext
 
 object Injector {
+
+    var provideContext: ((String) -> Context)? = null
 
     val dispatchers: DispatcherProvider by lazy {
         object : DispatcherProvider {
@@ -55,6 +62,18 @@ object Injector {
 
     val searchRepository: SearchRepository
         get() = SearchRepositoryImpl()
+
+    private val wallpaperDatabase by lazy {
+        WallpaperDatabase.getWallpaperDatabase(provideContext!!.invoke("for database init"))
+    }
+
+    val wallpaperDao: WallpaperDao by lazy {
+        wallpaperDatabase.wallpaperDao()
+    }
+
+    val detailsRepository: DetailsRepository
+        get() = DetailsRepositoryImpl(wallpaperDao)
+
 }
 
 interface DispatcherProvider {

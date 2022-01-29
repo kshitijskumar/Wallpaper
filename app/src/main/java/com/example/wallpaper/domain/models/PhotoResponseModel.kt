@@ -1,6 +1,9 @@
 package com.example.wallpaper.domain.models
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.example.wallpaper.BuildConfig
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -14,9 +17,10 @@ data class CuratedListResponseModel(
     var correspondingQueryForThisResult: String = ""
 }
 
+@Entity(tableName = BuildConfig.WALLPAPER_TABLE)
 @Parcelize
 data class PhotoResponseModel (
-    val id: Long? = null,
+    @PrimaryKey(autoGenerate = false) val id: Long? = null,
     val width: Long = 0L,
     val height: Long = 0L,
     val url: String = "",

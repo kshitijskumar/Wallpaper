@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-parcelize'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -21,6 +22,7 @@ android {
 
         buildConfigField "String", "PEXEL_BASE_URL", "\"https://api.pexels.com/\""
         buildConfigField "String", "PEXEL_AUTH_KEY", "\"563492ad6f917000010000011b875f8e55494287ba839f51ab6d2e50\""
+        buildConfigField "String", "WALLPAPER_TABLE", "\"wallpaper_table\""
     }
 
     buildTypes {
@@ -95,4 +97,16 @@ dependencies {
 
     // navigation
     implementation "androidx.navigation:navigation-compose:2.4.0-rc01"
+
+    // room
+    def roomVersion = "2.4.1"
+
+    implementation "androidx.room:room-runtime:$roomVersion"
+//    annotationProcessor "androidx.room:room-compiler:$roomVersion"
+//
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$roomVersion")
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:$roomVersion"
 }

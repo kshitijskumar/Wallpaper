@@ -20,18 +20,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.example.wallpaper.R
 import com.example.wallpaper.components.PhoneWallpaperFrameTemplate
 import com.example.wallpaper.domain.models.PhotoResponseModel
 import com.example.wallpaper.features.details.wallpapermanager.WallpaperSetter
 import com.example.wallpaper.utils.shortToast
+import com.example.wallpaper.viewmodels.details.DetailsViewModel
+import com.example.wallpaper.viewmodels.details.DetailsViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
 fun DetailsScreen(
-    photo: PhotoResponseModel = PhotoResponseModel()
+    photo: PhotoResponseModel = PhotoResponseModel(),
+    detailsVm: DetailsViewModel = viewModel(factory = DetailsViewModelFactory(photo.id ?: 0L)),
 ) {
 
     val scrollState = rememberScrollState()
@@ -43,7 +47,7 @@ fun DetailsScreen(
     }
 
     var isWallpaperSaved by rememberSaveable {
-        mutableStateOf(false)
+        detailsVm.isWallpaperSaved
     }
 
     val wallpaperSetter: WallpaperSetter = remember { WallpaperSetter(context) }
@@ -72,7 +76,7 @@ fun DetailsScreen(
                 horizontalArrangement = Arrangement.End
             ) {
                 IconButton(onClick = {
-                    isWallpaperSaved = !isWallpaperSaved
+                    detailsVm.addOrRemoveWallpaperFromSaved(photo)
                 }) {
                     val savedIconDrawableRes = if (isWallpaperSaved) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark_outline
                     Image(
